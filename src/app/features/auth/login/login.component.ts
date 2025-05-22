@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
     FormsModule
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 

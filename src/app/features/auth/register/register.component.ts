@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
     FormsModule
   ],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
 

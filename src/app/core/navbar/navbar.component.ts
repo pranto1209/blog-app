@@ -3,15 +3,17 @@ import { Router, RouterModule } from '@angular/router';
 import { User } from '../../features/auth/models/user.model';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
   user?: User;
