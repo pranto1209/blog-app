@@ -4,7 +4,7 @@
       <div class="col-12 col-md-8 col-lg-6 mx-auto">
         <img [src]="blogPost.featuredImageUrl" [title]="blogPost.title" class="img-fluid">
 
-        <h1 class="mt-4">{{blogPost.title}}</h1>
+        <h5 class="mt-4">{{blogPost.title}}</h5>
 
         <div class="d-flex justify-content-between mt-4">
           <span *ngIf="blogPost.isVisible">{{blogPost.author}}</span>

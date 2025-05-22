@@ -4,64 +4,41 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Category } from '../models/category.model';
 import { UpdateCategoryRequest } from '../models/update-category-request.model';
-import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../../environments/environment.development';
+import { FilteringRequest } from '../../../shared/models/filtering.request';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  constructor(private http: HttpClient,
-    private cookieService: CookieService) { }
+  constructor(private http: HttpClient) { }
+  
+  getCategories(request: FilteringRequest): Observable<any> {
+    let params = new HttpParams()
+      .set('sortBy', request.sortBy)
+      .set('sortDirection', request.sortDirection)
+      .set('searchText', request.searchText)
+      .set('isPaginated', request.isPaginated)
+      .set('pageNumber', request.pageNumber)
+      .set('pageSize', request.pageSize);
 
-  getAllCategories(
-    query?: string, sortBy?: string, sortDirection?: string,
-    pageNumber?: number, pageSize?: number): Observable<Category[]> {
-    let params = new HttpParams();
-
-    if (query) {
-      params = params.set('query', query)
-    }
-
-    if (sortBy) {
-      params = params.set('sortBy', sortBy)
-    }
-
-    if (sortDirection) {
-      params = params.set('sortDirection', sortDirection)
-    }
-
-    if (pageNumber) {
-      params = params.set('pageNumber', pageNumber)
-    }
-
-    if (pageSize) {
-      params = params.set('pageSize', pageSize)
-    }
-
-    return this.http.get<Category[]>(`${environment.apiBaseUrl}/api/Categories/get-categories`, {
-      params: params
-    });
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/Categories/get-categories`, { params });
   }
 
-  getCategoryById(id: string): Observable<Category> {
-    return this.http.get<Category>(`${environment.apiBaseUrl}/api/Categories/get-category/${id}`);
+  getCategoryById(id: any): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/Categories/get-category/${id}`);
   }
 
-  getCategoryCount(): Observable<number> {
-    return this.http.get<number>(`${environment.apiBaseUrl}/api/Categories/get-count`);
+  addCategory(model: AddCategoryRequest): Observable<any> {
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/Categories/create-category?addAuth=true`, model);
   }
 
-  addCategory(model: AddCategoryRequest): Observable<void> {
-    return this.http.post<void>(`${environment.apiBaseUrl}/api/Categories/create-category?addAuth=true`, model);
+  updateCategory(id: any, model: UpdateCategoryRequest): Observable<any> {
+    return this.http.put<any>(`${environment.apiBaseUrl}/api/Categories/update-category/${id}?addAuth=true`, model);
   }
 
-  updateCategory(id: string, updateCategoryRequest: UpdateCategoryRequest): Observable<Category> {
-    return this.http.put<Category>(`${environment.apiBaseUrl}/api/Categories/update-category/${id}?addAuth=true`, updateCategoryRequest);
-  }
-
-  deleteCategory(id: string): Observable<Category> {
-    return this.http.delete<Category>(`${environment.apiBaseUrl}/api/Categories/delete-category/${id}?addAuth=true`)
+  deleteCategory(id: any): Observable<any> {
+    return this.http.delete<any>(`${environment.apiBaseUrl}/api/Categories/delete-category/${id}?addAuth=true`)
   }
 }

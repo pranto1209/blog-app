@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ImageService } from '../../../shared/services/image.service';
 import { MarkdownModule } from 'ngx-markdown';
 import { ImageSelectorComponent } from "../../../shared/components/image-selector/image-selector.component";
+import { FilteringRequest } from '../../../shared/models/filtering.request';
 
 @Component({
   selector: 'app-add-blogpost',
@@ -19,16 +20,25 @@ import { ImageSelectorComponent } from "../../../shared/components/image-selecto
     FormsModule,
     MarkdownModule,
     ImageSelectorComponent
-],
+  ],
   templateUrl: './add-blogpost.component.html',
   styleUrl: './add-blogpost.component.scss'
 })
 export class AddBlogpostComponent implements OnInit, OnDestroy {
   model: AddBlogPost;
-  isImageSelectorVisible : boolean = false;
+  isImageSelectorVisible: boolean = false;
   categories$?: Observable<Category[]>;
 
   imageSelectorSubscription?: Subscription;
+
+  request: FilteringRequest = {
+    sortBy: '',
+    sortDirection: '',
+    searchText: '',
+    isPaginated: true,
+    pageNumber: 1,
+    pageSize: 10
+  }
 
   constructor(private blogPostService: BlogPostService,
     private router: Router,
@@ -49,33 +59,32 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-     this.categories$ = this.categoryService.getAllCategories();
+    this.categories$ = this.categoryService.getCategories(this.request);
 
-     this.imageSelectorSubscription = this.imageService.onSelectImage()
-     .subscribe({
-      next: (selectedImage) => {
-        this.model.featuredImageUrl = selectedImage.url;
-        this.closeImageSelector();
-      }
-     })
-
+    this.imageSelectorSubscription = this.imageService.onSelectImage()
+      .subscribe({
+        next: (selectedImage) => {
+          this.model.featuredImageUrl = selectedImage.url;
+          this.closeImageSelector();
+        }
+      })
   }
 
   onFormSubmit(): void {
     console.log(this.model);
     this.blogPostService.createBlogPost(this.model)
-    .subscribe({
-      next: (response) => {
-        this.router.navigateByUrl('/admin/blogposts');
-      }
-    });
+      .subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/blogposts');
+        }
+      });
   }
 
   openImageSelector(): void {
     this.isImageSelectorVisible = true;
   }
 
-  closeImageSelector() : void {
+  closeImageSelector(): void {
     this.isImageSelectorVisible = false;
   }
 

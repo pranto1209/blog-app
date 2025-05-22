@@ -5,94 +5,60 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { FilteringRequest } from '../../../shared/models/filtering.request';
+import { PaginationComponent } from "../../../shared/components/pagination/pagination.component";
 
 @Component({
   selector: 'app-category-list',
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
-  ],
+    FormsModule,
+    PaginationComponent
+],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss'
 })
 export class CategoryListComponent implements OnInit {
-  categories$?: Observable<Category[]>;
-  totalCount?: number;
-  list: number[] = [];
-  pageNumber = 1;
-  pageSize = 3;
 
-  constructor(private categoryService: CategoryService) {
+  categories$?: Observable<any>;
+
+  request: FilteringRequest = {
+    sortBy: '',
+    sortDirection: '',
+    searchText: '',
+    isPaginated: true,
+    pageNumber: 1,
+    pageSize: 10
   }
+
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit(): void {
-    this.categoryService.getCategoryCount()
-      .subscribe({
-        next: (value) => {
-          this.totalCount = value;
-          this.list = new Array(Math.ceil(value / this.pageSize))
-
-          this.categories$ = this.categoryService.getAllCategories(
-            undefined,
-            undefined,
-            undefined,
-            this.pageNumber,
-            this.pageSize
-          );
-        }
-      })
+    this.onCategory();
   }
 
-  onSearch(query: string) {
-    this.categories$ = this.categoryService.getAllCategories(query);
+  onCategory(): void {
+    this.categories$ = this.categoryService.getCategories(this.request);
   }
 
-  sort(sortBy: string, sortDirection: string) {
-    this.categories$ = this.categoryService.getAllCategories(undefined, sortBy, sortDirection);
+  onSearch(queryText: string): void {
+    this.request.searchText = queryText;
+    this.onCategory();
   }
 
-  getPage(pageNumber: number) {
-    this.pageNumber = pageNumber;
-
-    this.categories$ = this.categoryService.getAllCategories(
-      undefined,
-      undefined,
-      undefined,
-      this.pageNumber,
-      this.pageSize
-    );
+  sort(sortBy: string, sortDirection: string): void {
+    this.request.sortBy = sortBy;
+    this.request.sortDirection = sortDirection;
+    this.onCategory();
   }
 
-
-  getNextPage() {
-    if (this.pageNumber + 1 > this.list.length) {
-      return;
-    }
-
-    this.pageNumber += 1;
-    this.categories$ = this.categoryService.getAllCategories(
-      undefined,
-      undefined,
-      undefined,
-      this.pageNumber,
-      this.pageSize
-    );
+  getTotalPage(total: any): any {
+    return Math.ceil(total / this.request.pageSize);
   }
 
-  getPrevPage() {
-    if (this.pageNumber - 1 < 1) {
-      return;
-    }
-
-    this.pageNumber -= 1;
-    this.categories$ = this.categoryService.getAllCategories(
-      undefined,
-      undefined,
-      undefined,
-      this.pageNumber,
-      this.pageSize
-    );
+  getPage(pageNumber: any): void {
+    this.request.pageNumber = pageNumber;
+    this.onCategory();
   }
-
 }

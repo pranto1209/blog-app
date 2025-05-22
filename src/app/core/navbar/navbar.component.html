@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="['/']">Blog App</a>
+    <a class="navbar-brand" [routerLink]="['/']"><strong>Blog App</strong></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -32,16 +32,14 @@
 
       <div class="d-flex">
         <ng-container *ngIf="user === undefined;else showLogout">
-          <!-- Show Login Button -->
           <a [routerLink]="['/login']" class="btn btn-primary">Login</a>
-          <!-- Show Register Button -->
           <a [routerLink]="['/register']" class="btn btn-secondary ms-2">Register</a>
         </ng-container>
 
         <ng-template #showLogout>
           <div class="d-flex align-items-center">
             <span><strong>{{user?.email}}</strong></span>
-            <button class="btn btn-primary ms-3" (click)="onLogout()">Logout</button>
+            <button class="btn btn-danger ms-3" (click)="onLogout()">Logout</button>
           </div>
         </ng-template>
 

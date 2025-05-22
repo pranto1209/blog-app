@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ImageService } from '../../../shared/services/image.service';
 import { MarkdownModule } from 'ngx-markdown';
 import { ImageSelectorComponent } from "../../../shared/components/image-selector/image-selector.component";
+import { FilteringRequest } from '../../../shared/models/filtering.request';
 
 @Component({
   selector: 'app-edit-blogpost',
@@ -20,16 +21,16 @@ import { ImageSelectorComponent } from "../../../shared/components/image-selecto
     FormsModule,
     MarkdownModule,
     ImageSelectorComponent
-],
+  ],
   templateUrl: './edit-blogpost.component.html',
   styleUrl: './edit-blogpost.component.scss'
 })
 export class EditBlogpostComponent implements OnInit, OnDestroy {
   id: string | null = null;
   model?: BlogPost;
-  categories$? : Observable<Category[]>;
+  categories$?: Observable<Category[]>;
   selectedCategories?: string[];
-  isImageSelectorVisible : boolean = false;
+  isImageSelectorVisible: boolean = false;
 
 
   routeSubscription?: Subscription;
@@ -38,16 +39,24 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   deleteBlogPostSubscription?: Subscription;
   imageSelectSubscricption?: Subscription;
 
+  request: FilteringRequest = {
+    sortBy: '',
+    sortDirection: '',
+    searchText: '',
+    isPaginated: true,
+    pageNumber: 1,
+    pageSize: 10
+  }
 
   constructor(private route: ActivatedRoute,
     private blogPostService: BlogPostService,
     private categoryService: CategoryService,
-    private router:Router,
+    private router: Router,
     private imageService: ImageService) {
   }
 
   ngOnInit(): void {
-    this.categories$ = this.categoryService.getAllCategories();
+    this.categories$ = this.categoryService.getCategories(this.request);
 
     this.routeSubscription = this.route.paramMap.subscribe({
       next: (params) => {
@@ -65,14 +74,14 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
         }
 
         this.imageSelectSubscricption = this.imageService.onSelectImage()
-        .subscribe({
-          next: (response) => {
-            if (this.model) {
-              this.model.featuredImageUrl = response.url;
-              this.isImageSelectorVisible = false;
+          .subscribe({
+            next: (response) => {
+              if (this.model) {
+                this.model.featuredImageUrl = response.url;
+                this.isImageSelectorVisible = false;
+              }
             }
-          }
-        })
+          })
       }
     });
   }
@@ -93,11 +102,11 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
       };
 
       this.updateBlogPostSubscription = this.blogPostService.updateBlogPost(this.id, updateBlogPost)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/admin/blogposts');
-        }
-      });
+        .subscribe({
+          next: (response) => {
+            this.router.navigateByUrl('/admin/blogposts');
+          }
+        });
     }
 
   }
@@ -106,11 +115,11 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     if (this.id) {
       // call service and delete blogpost
       this.deleteBlogPostSubscription = this.blogPostService.deleteBlogPost(this.id)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/admin/blogposts');
-        }
-      });
+        .subscribe({
+          next: (response) => {
+            this.router.navigateByUrl('/admin/blogposts');
+          }
+        });
     }
   }
 
@@ -118,7 +127,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     this.isImageSelectorVisible = true;
   }
 
-  closeImageSelector() : void {
+  closeImageSelector(): void {
     this.isImageSelectorVisible = false;
   }
 

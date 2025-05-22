@@ -3,9 +3,9 @@ import { LoginRequest } from '../models/login-request.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginResponse } from '../models/login-response.model';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../../environments/environment.development';
+import { User } from '../../../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
