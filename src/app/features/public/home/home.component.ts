@@ -5,6 +5,7 @@ import { BlogPost } from '../../blog-post/models/blog-post.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { FilteringRequest } from '../../../shared/models/filtering.request';
 
 @Component({
   selector: 'app-home',
@@ -18,11 +19,21 @@ import { FormsModule } from '@angular/forms';
 })
 export class HomeComponent implements OnInit {
 
-  blogs$?: Observable<BlogPost[]>;
+  blogs$?: Observable<any>;
+
+  request: FilteringRequest = {
+    sortBy: '',
+    sortDirection: '',
+    searchText: '',
+    isPaginated: true,
+    pageNumber: 1,
+    pageSize: 10
+  }
 
   constructor(private blogPostService: BlogPostService) { }
 
   ngOnInit(): void {
-    this.blogs$ = this.blogPostService.getAllBlogPosts();
+    this.request.isPaginated = false;
+    this.blogs$ = this.blogPostService.getAllBlogPosts(this.request);
   }
 }

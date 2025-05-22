@@ -5,27 +5,54 @@ import { BlogPost } from '../models/blog-post.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { FilteringRequest } from '../../../shared/models/filtering.request';
+import { PaginationComponent } from "../../../shared/components/pagination/pagination.component";
 
 @Component({
   selector: 'app-blogpost-list',
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
-  ],
+    FormsModule,
+    PaginationComponent
+],
   templateUrl: './blogpost-list.component.html',
   styleUrl: './blogpost-list.component.scss'
 })
 export class BlogpostListComponent implements OnInit {
 
-  blogPosts$?: Observable<BlogPost[]>;
+  blogPosts$?: Observable<any>;
 
-  constructor(private blogPostService: BlogPostService) {
-
+  request: FilteringRequest = {
+    sortBy: '',
+    sortDirection: '',
+    searchText: '',
+    isPaginated: true,
+    pageNumber: 1,
+    pageSize: 10
   }
+
+  constructor(private blogPostService: BlogPostService) { }
 
   ngOnInit(): void {
-    this.blogPosts$ = this.blogPostService.getAllBlogPosts();
+    this.onBlogPost();
   }
 
+  onBlogPost(): void {
+    this.blogPosts$ = this.blogPostService.getAllBlogPosts(this.request);
+  }
+
+  onSearch(queryText: string): void {
+    this.request.searchText = queryText;
+    this.onBlogPost();
+  }
+
+  getTotalPage(total: any): any {
+    return Math.ceil(total / this.request.pageSize);
+  }
+
+  getPage(pageNumber: any): void {
+    this.request.pageNumber = pageNumber;
+    this.onBlogPost();
+  }
 }

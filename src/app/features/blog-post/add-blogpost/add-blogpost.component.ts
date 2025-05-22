@@ -27,7 +27,7 @@ import { FilteringRequest } from '../../../shared/models/filtering.request';
 export class AddBlogpostComponent implements OnInit, OnDestroy {
   model: AddBlogPost;
   isImageSelectorVisible: boolean = false;
-  categories$?: Observable<Category[]>;
+  categories$?: Observable<any>;
 
   imageSelectorSubscription?: Subscription;
 
@@ -57,8 +57,8 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
     }
   }
 
-
   ngOnInit(): void {
+    this.request.isPaginated = false;
     this.categories$ = this.categoryService.getCategories(this.request);
 
     this.imageSelectorSubscription = this.imageService.onSelectImage()

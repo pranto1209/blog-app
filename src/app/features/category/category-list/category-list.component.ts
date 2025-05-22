@@ -15,7 +15,7 @@ import { PaginationComponent } from "../../../shared/components/pagination/pagin
     RouterModule,
     FormsModule,
     PaginationComponent
-],
+  ],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss'
 })

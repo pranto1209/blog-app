@@ -54,7 +54,6 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
       urlHandle: this.category?.urlHandle ?? ''
     };
 
-    // pass this object to service
     if (this.id) {
       this.editCategorySubscription = this.categoryService.updateCategory(this.id, updateCategoryRequest)
       .subscribe({

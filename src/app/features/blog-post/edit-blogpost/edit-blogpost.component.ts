@@ -26,9 +26,10 @@ import { FilteringRequest } from '../../../shared/models/filtering.request';
   styleUrl: './edit-blogpost.component.scss'
 })
 export class EditBlogpostComponent implements OnInit, OnDestroy {
-  id: string | null = null;
+
+  id: number = 0;
   model?: BlogPost;
-  categories$?: Observable<Category[]>;
+  categories$?: Observable<any>;
   selectedCategories?: string[];
   isImageSelectorVisible: boolean = false;
 
@@ -48,7 +49,8 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     pageSize: 10
   }
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private activatedRoute: ActivatedRoute,
     private blogPostService: BlogPostService,
     private categoryService: CategoryService,
     private router: Router,
@@ -56,34 +58,27 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.request.isPaginated = false;
     this.categories$ = this.categoryService.getCategories(this.request);
 
-    this.routeSubscription = this.route.paramMap.subscribe({
-      next: (params) => {
-        this.id = params.get('id');
+    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id') ?? '0');
 
-        // Get BlogPost From API
-        if (this.id) {
-          this.getBlogPostSubscription = this.blogPostService.getBlogPostById(this.id).subscribe({
-            next: (response) => {
-              this.model = response;
-              this.selectedCategories = response.categories.map(x => x.id);
-            }
-          });
-          ;
-        }
-
-        this.imageSelectSubscricption = this.imageService.onSelectImage()
-          .subscribe({
-            next: (response) => {
-              if (this.model) {
-                this.model.featuredImageUrl = response.url;
-                this.isImageSelectorVisible = false;
-              }
-            }
-          })
+    this.getBlogPostSubscription = this.blogPostService.getBlogPostById(this.id).subscribe({
+      next: (response) => {
+        this.model = response;
+        this.selectedCategories = response.categories;
       }
     });
+
+    this.imageSelectSubscricption = this.imageService.onSelectImage()
+      .subscribe({
+        next: (response) => {
+          if (this.model) {
+            this.model.featuredImageUrl = response.url;
+            this.isImageSelectorVisible = false;
+          }
+        }
+      });
   }
 
   onFormSubmit(): void {

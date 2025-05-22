@@ -50,7 +50,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!categories || categories.length === 0">
+        <tr *ngIf="!categories.data || categories.data.length === 0">
           <td colspan="3" class="text-center">No record to display</td>
         </tr>
         <tr *ngFor="let category of categories.data; let i = index" class="align-middle">
@@ -64,8 +64,7 @@
       </tbody>
     </table>
 
-    <app-pagination [pageNumber]="request.pageNumber" [totalPage]="getTotalPage(categories.total)"
-      (pageChanged)="getPage($event)" />
+    <app-pagination [pageNumber]="request.pageNumber" [totalPage]="getTotalPage(categories.total)" (pageChanged)="getPage($event)" />
 
   </ng-container>
 

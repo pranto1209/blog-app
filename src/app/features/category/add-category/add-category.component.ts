@@ -29,7 +29,6 @@ export class AddCategoryComponent implements OnDestroy {
     };
   }
 
-
   onFormSubmit() {
     this.addCategorySubscribtion = this.categoryService.addCategory(this.model)
     .subscribe({
@@ -42,5 +41,4 @@ export class AddCategoryComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.addCategorySubscribtion?.unsubscribe();
   }
-
 }

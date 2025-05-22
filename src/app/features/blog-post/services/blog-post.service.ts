@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { AddBlogPost } from '../models/add-blog-post.model';
 import { Observable } from 'rxjs';
 import { BlogPost } from '../models/blog-post.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { UpdateBlogPost } from '../models/update-blog-post.model';
 import { environment } from '../../../../environments/environment.development';
+import { FilteringRequest } from '../../../shared/models/filtering.request';
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +14,35 @@ export class BlogPostService {
 
   constructor(private http: HttpClient) { }
 
-  createBlogPost(data: AddBlogPost) : Observable<BlogPost> {
-    return this.http.post<BlogPost>(`${environment.apiBaseUrl}/api/BlogPosts/create-blog-post?addAuth=true`, data);
+  getAllBlogPosts(request: FilteringRequest): Observable<any> {
+    let params = new HttpParams()
+      .set('sortBy', request.sortBy)
+      .set('sortDirection', request.sortDirection)
+      .set('searchText', request.searchText)
+      .set('isPaginated', request.isPaginated)
+      .set('pageNumber', request.pageNumber)
+      .set('pageSize', request.pageSize);
+
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-posts`, { params });
   }
 
-  getAllBlogPosts() : Observable<BlogPost[]> {
-    return this.http.get<BlogPost[]>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-posts`);
+  getBlogPostById(id: any): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post/${id}`);
   }
 
-  getBlogPostById(id: string): Observable<BlogPost> {
-    return this.http.get<BlogPost>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post/${id}`);
+  getBlogPostByUrlHandle(urlHandle: any): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post-by-url/${urlHandle}`);
   }
 
-  getBlogPostByUrlHandle(urlHandle: string): Observable<BlogPost> {
-    return this.http.get<BlogPost>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post-by-url/${urlHandle}`);
+  createBlogPost(data: AddBlogPost): Observable<any> {
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/BlogPosts/create-blog-post?addAuth=true`, data);
   }
 
-  updateBlogPost(id: string, updatedBlogPost: UpdateBlogPost): Observable<BlogPost> {
-    return this.http.put<BlogPost>(`${environment.apiBaseUrl}/api/BlogPosts/update-blog-post/${id}?addAuth=true`, updatedBlogPost);
+  updateBlogPost(id: any, updatedBlogPost: UpdateBlogPost): Observable<any> {
+    return this.http.put<any>(`${environment.apiBaseUrl}/api/BlogPosts/update-blog-post/${id}?addAuth=true`, updatedBlogPost);
   }
 
-  deleteBlogPost(id: string): Observable<BlogPost> {
-    return this.http.delete<BlogPost>(`${environment.apiBaseUrl}/api/BlogPosts/delete-blog-post/${id}?addAuth=true`);
+  deleteBlogPost(id: any): Observable<any> {
+    return this.http.delete<any>(`${environment.apiBaseUrl}/api/BlogPosts/delete-blog-post/${id}?addAuth=true`);
   }
 }
