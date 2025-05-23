@@ -8,7 +8,7 @@
       <button type="button" class="btn btn-info ms-3" (click)="onSearch(queryText.value)">Search</button>
     </div>
 
-    <a *ngIf="user && user.roles.includes('Admin')" [routerLink]="['/admin/categories/add']" class="btn btn-primary">Add Category</a>
+    <a *ngIf="user && user.roles.includes('Admin')" [routerLink]="['/categories/add']" class="btn btn-primary">Add Category</a>
   </div>
 
   <ng-container *ngIf="categories$ | async as categories">
@@ -18,7 +18,7 @@
           <th>SN</th>
           <th>
             Name
-            <span>
+            <span class="ms-2">
               <span>
                 <button type="button" class="btn btn-light" (click)="sort('name', 'asc')"><i class="bi bi-arrow-up"></i></button>
               </span>
@@ -38,7 +38,7 @@
           <td>{{ (request.pageNumber - 1) * request.pageSize + i + 1 }}</td>
           <td>{{category.name}}</td>
           <td *ngIf="user && user.roles.includes('Admin')" class="text-center">
-            <a class="btn btn-warning" [routerLink]="['/admin/categories', category.id]">Edit</a>
+            <a class="btn btn-warning" [routerLink]="['/categories', category.id]">Edit</a>
           </td>
         </tr>
       </tbody>

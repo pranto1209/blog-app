@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BlogPostService } from '../../blog-post/services/blog-post.service';
 import { Observable } from 'rxjs';
-import { BlogPost } from '../../blog-post/models/blog-post.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
@@ -19,8 +18,9 @@ import { MarkdownModule } from 'ngx-markdown';
   styleUrl: './blog-details.component.scss'
 })
 export class BlogDetailsComponent implements OnInit {
+
   url: string | null = null;
-  blogPost$? : Observable<BlogPost>;
+  blogPost$? : Observable<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +36,6 @@ export class BlogDetailsComponent implements OnInit {
       }
     });
 
-    // Fetch blog details by url
     if (this.url) {
       this.blogPost$ = this.blogPostService.getBlogPostByUrlHandle(this.url);
     }

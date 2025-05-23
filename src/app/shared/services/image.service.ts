@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
-import { BlogImage } from '../models/blog-image';
 import { FilteringRequest } from '../models/filtering.request';
 
 @Injectable({
@@ -10,16 +9,11 @@ import { FilteringRequest } from '../models/filtering.request';
 })
 export class ImageService {
 
-  selectedImage: BehaviorSubject<BlogImage> = new BehaviorSubject<BlogImage>({
-    id: '',
-    fileExtenstion: '',
-    fileName: '',
-    url: ''
-  });
+  selectedImage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
 
-  getImages(request: FilteringRequest): Observable<any> {
+  getImagesByUser(request: FilteringRequest): Observable<any> {
     let params = new HttpParams()
       .set('sortBy', request.sortBy)
       .set('sortDirection', request.sortDirection)
@@ -28,7 +22,7 @@ export class ImageService {
       .set('pageNumber', request.pageNumber)
       .set('pageSize', request.pageSize);
       
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/Images/get-images`, { params });
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/Images/get-images-by-user`, { params });
   }
 
   uploadImage(file: File, fileName: string): Observable<any> {

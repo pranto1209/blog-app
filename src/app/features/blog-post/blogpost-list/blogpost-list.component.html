@@ -8,7 +8,7 @@
       <button type="button" class="btn btn-info ms-3" (click)="onSearch(queryText.value)">Search</button>
     </div>
     
-    <a [routerLink]="['/admin/blogposts/add']" class="btn btn-primary">Add Blog Post</a>
+    <a [routerLink]="['/blogposts/add']" class="btn btn-primary">Add Blog Post</a>
   </div>
 
 
@@ -22,26 +22,28 @@
           <th>Author</th>
           <th>Author Visibility</th>
           <th>Categories</th>
+          <th>Published Time</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!blogPosts.data || blogPosts.data.length === 0">
-          <td colspan="6" class="text-center">No record to display</td>
+          <td colspan="8" class="text-center">No record to display</td>
         </tr>
         <tr *ngFor="let blogPost of blogPosts.data; let i = index" class="align-middle">
           <td>{{ (request.pageNumber - 1) * request.pageSize + i + 1 }}</td>
           <td>{{blogPost.title}}</td>
           <td>{{blogPost.shortDescription}}</td>
           <td>{{blogPost.author}}</td>
-          <td>{{ blogPost.isVisible ? 'Yes' : 'No' }}</td>
+          <td>{{blogPost.isVisible ? 'Yes' : 'No'}}</td>
           <td>
             <span *ngFor="let category of blogPost.categories">
               <span class="badge bg-secondary me-2">{{category.name}}</span>
             </span>
           </td>
+          <td>{{blogPost.publishedTime | date: 'dd/MM/yyyy, hh:mm:ss a'}}</td>
           <td class="text-center">
-            <a class="btn btn-warning" [routerLink]="['/admin/blogposts', blogPost.id]">Edit</a>
+            <a class="btn btn-warning" [routerLink]="['/blogposts', blogPost.id]">Edit</a>
           </td>
         </tr>
       </tbody>

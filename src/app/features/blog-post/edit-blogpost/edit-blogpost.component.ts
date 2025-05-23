@@ -2,10 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { BlogPostService } from '../services/blog-post.service';
-import { BlogPost } from '../models/blog-post.model';
 import { CategoryService } from '../../category/services/category.service';
-import { Category } from '../../category/models/category.model';
-import { UpdateBlogPost } from '../models/update-blog-post.model';
+import { UpdateBlogPostRequest } from '../models/update-blog-post.request';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ImageService } from '../../../shared/services/image.service';
@@ -82,12 +80,11 @@ export class EditBlogpostComponent implements OnInit {
 
   onFormSubmit(): void {
     if (this.blogPost && this.id) {
-      var updateBlogPost: UpdateBlogPost = {
+      var updateBlogPost: UpdateBlogPostRequest = {
         content: this.blogPost.content,
         shortDescription: this.blogPost.shortDescription,
         featuredImageUrl: this.blogPost.featuredImageUrl,
         isVisible: this.blogPost.isVisible,
-        publishedDate: this.blogPost.publishedDate,
         title: this.blogPost.title,
         urlHandle: this.blogPost.urlHandle,
         categories: this.selectedCategories ?? []
@@ -96,7 +93,7 @@ export class EditBlogpostComponent implements OnInit {
       this.updateBlogPostSubscription = this.blogPostService.updateBlogPost(this.id, updateBlogPost)
         .subscribe({
           next: (response) => {
-            this.router.navigateByUrl('/admin/blogposts');
+            this.router.navigateByUrl('/blogposts');
           }
         });
     }
@@ -107,7 +104,7 @@ export class EditBlogpostComponent implements OnInit {
     this.blogPostService.deleteBlogPost(this.id)
       .subscribe({
         next: (response) => {
-          this.router.navigateByUrl('/admin/blogposts');
+          this.router.navigateByUrl('/blogposts');
         }
       });
   }

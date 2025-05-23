@@ -13,11 +13,11 @@
             [routerLinkActiveOptions]="{ exact: true }"><strong>Home</strong></a>
         </li>
         <li *ngIf="user" class="nav-item">
-          <a class="nav-link" aria-current="page" [routerLink]="['/admin/categories']" routerLinkActive="active-link"
+          <a class="nav-link" aria-current="page" [routerLink]="['/categories']" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }"><strong>Category</strong></a>
         </li>
         <li *ngIf="user && user.roles.includes('User')" class="nav-item">
-          <a class="nav-link" aria-current="page" [routerLink]="['/admin/blogposts']" routerLinkActive="active-link"
+          <a class="nav-link" aria-current="page" [routerLink]="['/blogposts']" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }"><strong>Blog Post</strong></a>
         </li>
 
@@ -27,12 +27,12 @@
               <strong>Admin</strong>
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" [routerLink]="['/admin/categories']" routerLinkActive="active-link"
+              <li><a class="dropdown-item" [routerLink]="['/categories']" routerLinkActive="active-link"
                   [routerLinkActiveOptions]="{ exact: true }"><strong>Category</strong></a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" [routerLink]="['/admin/blogposts']" routerLinkActive="active-link"
+              <li><a class="dropdown-item" [routerLink]="['/blogposts']" routerLinkActive="active-link"
                   [routerLinkActiveOptions]="{ exact: true }"><strong>Blog Post</strong></a></li>
             </ul>
           </li>

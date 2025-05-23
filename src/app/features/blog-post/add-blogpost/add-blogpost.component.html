@@ -20,25 +20,8 @@
       </div>
 
       <div class="mt-3">
-        <label for="content" class="form-label">Content</label>
-
-        <div class="d-flex flex-row">
-          <div class="col-6 p-2">
-            <textarea id="content" name="content" class="form-control" style="height: 350px;max-height: 350px;"
-              [(ngModel)]="model.content">
-            </textarea>
-          </div>
-
-          <div class="col-6 p-2" style="max-height: 350px; overflow-y: scroll;">
-            <markdown [data]="model.content"></markdown>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="mt-3">
         <label for="featuredImageUrl" class="form-label">Featured Image Url
-          <button type="button" class="btn btn-light" (click)="openImageSelector()">Select Image</button>
+          <button type="button" class="btn btn-info ms-2" (click)="openImageSelector()">Select Image</button>
         </label>
 
         <ng-container *ngIf="model.featuredImageUrl !== ''">
@@ -52,16 +35,30 @@
       </div>
 
       <div class="mt-3">
-        <label for="publishedDate" class="form-label">Published Date</label>
-        <input type="date" id="publishedDate" name="publishedDate" class="form-control" value="{{model.publishedDate}}"
-          [ngModel]="model.publishedDate | date: 'yyy-MM-dd'" (ngModelChange)="model.publishedDate = $event">
+        <label for="content" class="form-label">Content</label>
+
+        <div class="d-flex flex-row">
+          <div class="col-6 p-2">
+            <textarea id="content" name="content" class="form-control" style="height: 350px;max-height: 350px;"
+              [(ngModel)]="model.content">
+            </textarea>
+          </div>
+
+          <div class="col-6 p-2" style="max-height: 350px; overflow-y: scroll;">
+            <markdown [data]="model.content"></markdown>
+          </div>
+        </div>
       </div>
+
+      <!-- <div class="mt-3">
+        <label for="publishedTime" class="form-label">Published Date</label>
+        <input type="date" id="publishedTime" name="publishedTime" class="form-control" value="{{model.publishedTime}}"
+          [ngModel]="model.publishedTime | date: 'yyyy-MM-dd'" (ngModelChange)="model.publishedTime = $event">
+      </div> -->
 
       <div class="form-check mt-3">
         <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="model.isVisible" name="isVisible">
-        <label class="form-check-label" for="isVisible">
-          Is Visible?
-        </label>
+        <label class="form-check-label" for="isVisible">Author Visibility</label>
       </div>
 
       <div class="mt-3">
@@ -72,7 +69,6 @@
             <option *ngFor="let category of categories.data" [value]="category.id">{{category.name}}</option>
           </select>
         </ng-container>
-
       </div>
 
       <div class="mt-3">

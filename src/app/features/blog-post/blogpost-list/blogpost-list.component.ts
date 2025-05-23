@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogPostService } from '../services/blog-post.service';
 import { Observable } from 'rxjs';
-import { BlogPost } from '../models/blog-post.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FilteringRequest } from '../../../shared/models/filtering.request';
 import { PaginationComponent } from "../../../shared/components/pagination/pagination.component";
-import { User } from '../../../shared/models/user';
 import { AuthService } from '../../auth/services/auth.service';
 
 @Component({

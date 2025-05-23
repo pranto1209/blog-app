@@ -8,7 +8,7 @@
 
         <div class="d-flex justify-content-between mt-4">
           <span *ngIf="blogPost.isVisible">{{blogPost.author}}</span>
-          <span>{{blogPost.publishedDate | date:'dd-MM-yyyy'}}</span>
+          <span>{{blogPost.publishedTime | date: 'dd/MM/yyyy, hh:mm:ss a'}}</span>
         </div>
 
         <div *ngIf="blogPost.categories" class="mt-4">

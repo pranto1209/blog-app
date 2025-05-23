@@ -4,7 +4,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ImageService } from '../../services/image.service';
-import { BlogImage } from '../../models/blog-image';
 import { FilteringRequest } from '../../models/filtering.request';
 import { PaginationComponent } from "../pagination/pagination.component";
 
@@ -44,7 +43,7 @@ export class ImageSelectorComponent implements OnInit {
   }
 
   onImages(): void {
-    this.images$ = this.imageService.getImages(this.request);
+    this.images$ = this.imageService.getImagesByUser(this.request);
   }
 
   onFileUploadChange(event: any): void {

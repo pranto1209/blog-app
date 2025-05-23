@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AddCategoryRequest } from '../models/add-category-request.model';
+import { AddCategoryRequest } from '../models/add-category.request';
 import { CategoryService } from '../services/category.service';
 import { Subscription } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
@@ -33,7 +33,7 @@ export class AddCategoryComponent implements OnDestroy {
     this.addCategorySubscribtion = this.categoryService.addCategory(this.model)
       .subscribe({
         next: (response) => {
-          this.router.navigateByUrl('/admin/categories');
+          this.router.navigateByUrl('/categories');
         }
       })
   }

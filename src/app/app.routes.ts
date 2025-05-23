@@ -30,32 +30,32 @@ export const routes: Routes = [
         component: BlogDetailsComponent
     },
     {
-        path: 'admin/categories',
+        path: 'categories',
         component: CategoryListComponent,
         canActivate: [authGuard]
     },
     {
-        path: 'admin/categories/add',
+        path: 'categories/add',
         component: AddCategoryComponent,
         canActivate: [authGuard]
     },
     {
-        path: 'admin/categories/:id',
+        path: 'categories/:id',
         component: EditCategoryComponent,
         canActivate: [authGuard]
     },
     {
-        path: 'admin/blogposts',
+        path: 'blogposts',
         component: BlogpostListComponent,
         canActivate: [authGuard]
     },
     {
-        path: 'admin/blogposts/add',
+        path: 'blogposts/add',
         component: AddBlogpostComponent,
         canActivate: [authGuard]
     },
     {
-        path: 'admin/blogposts/:id',
+        path: 'blogposts/:id',
         component: EditBlogpostComponent,
         canActivate: [authGuard]
     },

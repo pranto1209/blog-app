@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../services/category.service';
-import { Category } from '../models/category.model';
-import { UpdateCategoryRequest } from '../models/update-category-request.model';
+import { UpdateCategoryRequest } from '../models/update-category.request';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -57,7 +56,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
       this.editCategorySubscription = this.categoryService.updateCategory(this.id, updateCategoryRequest)
       .subscribe({
         next: (response) => {
-          this.router.navigateByUrl('/admin/categories');
+          this.router.navigateByUrl('/categories');
         }
       });
     }
@@ -68,7 +67,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
       this.categoryService.deleteCategory(this.id)
       .subscribe({
         next: (response) => {
-          this.router.navigateByUrl('/admin/categories');
+          this.router.navigateByUrl('/categories');
         }
       })
     }

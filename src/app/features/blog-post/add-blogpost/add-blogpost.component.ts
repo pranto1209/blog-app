@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AddBlogPost } from '../models/add-blog-post.model';
+import { AddBlogPostRequest } from '../models/add-blog-post.request';
 import { BlogPostService } from '../services/blog-post.service';
 import { Router, RouterModule } from '@angular/router';
 import { CategoryService } from '../../category/services/category.service';
 import { Observable, Subscription } from 'rxjs';
-import { Category } from '../../category/models/category.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ImageService } from '../../../shared/services/image.service';
@@ -25,7 +24,7 @@ import { FilteringRequest } from '../../../shared/models/filtering.request';
   styleUrl: './add-blogpost.component.scss'
 })
 export class AddBlogpostComponent implements OnInit, OnDestroy {
-  model: AddBlogPost;
+  model: AddBlogPostRequest;
   isImageSelectorVisible: boolean = false;
   categories$?: Observable<any>;
 
@@ -51,7 +50,6 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
       content: '',
       featuredImageUrl: '',
       isVisible: true,
-      publishedDate: new Date(),
       categories: []
     }
   }
@@ -74,7 +72,7 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
     this.blogPostService.createBlogPost(this.model)
       .subscribe({
         next: (response) => {
-          this.router.navigateByUrl('/admin/blogposts');
+          this.router.navigateByUrl('/blogposts');
         }
       });
   }

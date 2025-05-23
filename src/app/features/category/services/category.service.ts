@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AddCategoryRequest } from '../models/add-category-request.model';
+import { AddCategoryRequest } from '../models/add-category.request';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Category } from '../models/category.model';
-import { UpdateCategoryRequest } from '../models/update-category-request.model';
+import { UpdateCategoryRequest } from '../models/update-category.request';
 import { environment } from '../../../../environments/environment.development';
 import { FilteringRequest } from '../../../shared/models/filtering.request';
 
