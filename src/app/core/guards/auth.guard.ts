@@ -1,7 +1,7 @@
-import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../../features/auth/services/auth.service';
+import { inject } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 
 export const authGuard: CanActivateFn = (route, state) => {
@@ -10,33 +10,32 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const user = authService.getUser();
 
-  // Check for the JWT Token
   let token = cookieService.get('Authorization');
 
   if (token && user) {
     token = token.replace('Bearer ', '');
     const decodedToken: any = jwtDecode(token);
 
-    // Check if token has expired
     const expirationDate = decodedToken.exp * 1000;
     const currentTime = new Date().getTime();
 
     if (expirationDate < currentTime) {
-      // Logout
       authService.logout();
       return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } })
-    } else {
-      // Token is still valid
+    } 
+    else {
+      const allowedRoles = ['Admin', 'User'];
 
-      if (user.roles.includes('Writer')) {
+      if (user.roles.some(role => allowedRoles.includes(role))) {
         return true;
-      } else {
+      } 
+      else {
         alert('Unauthorized');
         return false;
       }
     }
-  } else {
-    // Logout
+  } 
+  else {
     authService.logout();
     return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } })
   }

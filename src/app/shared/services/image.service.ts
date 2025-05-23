@@ -1,43 +1,44 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { BlogImage } from '../models/blog-image.model';
 import { environment } from '../../../environments/environment.development';
+import { BlogImage } from '../models/blog-image';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
+
   selectedImage: BehaviorSubject<BlogImage> = new BehaviorSubject<BlogImage>({
     id: '',
     fileExtenstion: '',
     fileName: '',
-    title: '',
     url: ''
   });
 
   constructor(private http: HttpClient) { }
 
-  getAllImages(): Observable<BlogImage[]> {
-    return this.http.get<BlogImage[]>(`${environment.apiBaseUrl}/api/Images/get-images`);
+  getAllImages(): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/Images/get-images`);
   }
 
-
-  uploadImage(file: File, fileName: string, title: string): Observable<BlogImage> {
+  uploadImage(file: File, fileName: string): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('fileName', fileName);
-    formData.append('title', title);
 
-    return this.http.post<BlogImage>(`${environment.apiBaseUrl}/api/Images/upload-image`, formData);
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/Images/upload-image`, formData);
   }
 
-  selectImage(image: BlogImage): void {
+  deleteImage(id: any): Observable<any> {
+    return this.http.delete<any>(`${environment.apiBaseUrl}/api/Images/delete-image/${id}`);
+  }
+
+  selectImage(image: any): void {
     this.selectedImage.next(image);
   }
 
-  onSelectImage(): Observable<BlogImage> {
+  onSelectImage(): Observable<any> {
     return this.selectedImage.asObservable()
   }
-
 }

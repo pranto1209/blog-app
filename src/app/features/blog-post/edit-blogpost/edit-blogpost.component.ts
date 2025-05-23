@@ -33,7 +33,6 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   selectedCategories?: string[];
   isImageSelectorVisible: boolean = false;
 
-
   routeSubscription?: Subscription;
   updateBlogPostSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
@@ -58,10 +57,12 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id') ?? '0');
+
     this.request.isPaginated = false;
     this.categories$ = this.categoryService.getCategories(this.request);
 
-    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id') ?? '0');
+
 
     this.getBlogPostSubscription = this.blogPostService.getBlogPostById(this.id).subscribe({
       next: (response) => {
@@ -107,15 +108,12 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   }
 
   onDelete(): void {
-    if (this.id) {
-      // call service and delete blogpost
-      this.deleteBlogPostSubscription = this.blogPostService.deleteBlogPost(this.id)
-        .subscribe({
-          next: (response) => {
-            this.router.navigateByUrl('/admin/blogposts');
-          }
-        });
-    }
+    this.blogPostService.deleteBlogPost(this.id)
+      .subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/blogposts');
+        }
+      });
   }
 
   openImageSelector(): void {

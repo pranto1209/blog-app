@@ -35,14 +35,14 @@ export class BlogPostService {
   }
 
   createBlogPost(data: AddBlogPost): Observable<any> {
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/BlogPosts/create-blog-post?addAuth=true`, data);
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/BlogPosts/create-blog-post`, data);
   }
 
   updateBlogPost(id: any, updatedBlogPost: UpdateBlogPost): Observable<any> {
-    return this.http.put<any>(`${environment.apiBaseUrl}/api/BlogPosts/update-blog-post/${id}?addAuth=true`, updatedBlogPost);
+    return this.http.put<any>(`${environment.apiBaseUrl}/api/BlogPosts/update-blog-post/${id}`, updatedBlogPost);
   }
 
   deleteBlogPost(id: any): Observable<any> {
-    return this.http.delete<any>(`${environment.apiBaseUrl}/api/BlogPosts/delete-blog-post/${id}?addAuth=true`);
+    return this.http.delete<any>(`${environment.apiBaseUrl}/api/BlogPosts/delete-blog-post/${id}`);
   }
 }

@@ -10,10 +10,10 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/']"><strong>Home</strong></a>
+          <a class="nav-link" aria-current="page" [routerLink]="['/']"><strong>Home</strong></a>
         </li>
 
-        <ng-container *ngIf="user !== undefined && user?.roles?.includes('Writer')">
+        <ng-container *ngIf="user !== undefined && user?.roles?.includes('User')">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <strong>Admin</strong>
@@ -38,8 +38,10 @@
 
         <ng-template #showLogout>
           <div class="d-flex align-items-center">
-            <span><strong>{{user?.email}}</strong></span>
-            <button class="btn btn-danger ms-3" (click)="onLogout()">Logout</button>
+            <button class="btn btn-info">
+              <strong>{{ user?.email }}</strong>
+            </button>
+            <button class="btn btn-danger ms-2" (click)="onLogout()"><strong>Logout</strong></button>
           </div>
         </ng-template>
 

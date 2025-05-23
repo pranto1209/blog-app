@@ -4,7 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ImageService } from '../../services/image.service';
-import { BlogImage } from '../../models/blog-image.model';
+import { BlogImage } from '../../models/blog-image';
 
 @Component({
   selector: 'app-image-selector',
@@ -17,12 +17,13 @@ import { BlogImage } from '../../models/blog-image.model';
   styleUrl: './image-selector.component.scss'
 })
 export class ImageSelectorComponent implements OnInit {
+
   private file?: File;
   fileName: string = '';
   title: string = '';
-  images$?: Observable<BlogImage[]>;
+  images$?: Observable<any>;
 
-  @ViewChild('form', { static: false}) imageUploadForm?: NgForm;
+  @ViewChild('form', { static: false }) imageUploadForm?: NgForm;
 
   constructor(private imageService: ImageService) { }
 
@@ -30,30 +31,37 @@ export class ImageSelectorComponent implements OnInit {
     this.getImages();
   }
 
-  onFileUploadChange(event: Event): void {
+  getImages(): void {
+    this.images$ = this.imageService.getAllImages();
+  }
+
+  onFileUploadChange(event: any): void {
     const element = event.currentTarget as HTMLInputElement;
     this.file = element.files?.[0];
   }
 
   uploadImage(): void {
-    if (this.file && this.fileName !== '' && this.title !== '') {
-      // Image service to upload the image
-      this.imageService.uploadImage(this.file, this.fileName, this.title)
-      .subscribe({
-        next: (response) => {
-          this.imageUploadForm?.resetForm();
-          this.getImages();
-        }
-      });
+    if (this.file && this.fileName?.trim()) {
+      this.imageService.uploadImage(this.file, this.fileName)
+        .subscribe({
+          next: (response) => {
+            this.imageUploadForm?.resetForm();
+            this.getImages();
+          }
+        });
     }
   }
 
-  selectImage(image: BlogImage): void {
+  selectImage(image: any): void {
     this.imageService.selectImage(image);
   }
 
-  private getImages() {
-    this.images$ = this.imageService.getAllImages();
+  onDelete(id: any): void {
+    this.imageService.deleteImage(id)
+      .subscribe({
+        next: (response) => {
+          this.getImages();
+        }
+      });
   }
-
 }
