@@ -25,10 +25,10 @@ import { FilteringRequest } from '../../../shared/models/filtering.request';
   templateUrl: './edit-blogpost.component.html',
   styleUrl: './edit-blogpost.component.scss'
 })
-export class EditBlogpostComponent implements OnInit, OnDestroy {
+export class EditBlogpostComponent implements OnInit {
 
   id: number = 0;
-  model?: BlogPost;
+  blogPost: any;
   categories$?: Observable<any>;
   selectedCategories?: string[];
   isImageSelectorVisible: boolean = false;
@@ -50,11 +50,11 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private blogPostService: BlogPostService,
     private categoryService: CategoryService,
-    private router: Router,
-    private imageService: ImageService) {
-  }
+    private imageService: ImageService
+  ) { }
 
   ngOnInit(): void {
     this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id') ?? '0');
@@ -62,20 +62,18 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     this.request.isPaginated = false;
     this.categories$ = this.categoryService.getCategories(this.request);
 
-
-
     this.getBlogPostSubscription = this.blogPostService.getBlogPostById(this.id).subscribe({
       next: (response) => {
-        this.model = response;
-        this.selectedCategories = response.categories;
+        this.blogPost = response;
+        this.selectedCategories = response.categories.map((x: any) => x.id);
       }
     });
 
     this.imageSelectSubscricption = this.imageService.onSelectImage()
       .subscribe({
         next: (response) => {
-          if (this.model) {
-            this.model.featuredImageUrl = response.url;
+          if (this.blogPost) {
+            this.blogPost.featuredImageUrl = response.url;
             this.isImageSelectorVisible = false;
           }
         }
@@ -83,17 +81,15 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
-    // Convert this model to Request Object
-    if (this.model && this.id) {
+    if (this.blogPost && this.id) {
       var updateBlogPost: UpdateBlogPost = {
-        author: this.model.author,
-        content: this.model.content,
-        shortDescription: this.model.shortDescription,
-        featuredImageUrl: this.model.featuredImageUrl,
-        isVisible: this.model.isVisible,
-        publishedDate: this.model.publishedDate,
-        title: this.model.title,
-        urlHandle: this.model.urlHandle,
+        content: this.blogPost.content,
+        shortDescription: this.blogPost.shortDescription,
+        featuredImageUrl: this.blogPost.featuredImageUrl,
+        isVisible: this.blogPost.isVisible,
+        publishedDate: this.blogPost.publishedDate,
+        title: this.blogPost.title,
+        urlHandle: this.blogPost.urlHandle,
         categories: this.selectedCategories ?? []
       };
 
@@ -122,13 +118,5 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
 
   closeImageSelector(): void {
     this.isImageSelectorVisible = false;
-  }
-
-  ngOnDestroy(): void {
-    this.routeSubscription?.unsubscribe();
-    this.updateBlogPostSubscription?.unsubscribe();
-    this.getBlogPostSubscription?.unsubscribe();
-    this.deleteBlogPostSubscription?.unsubscribe();
-    this.imageSelectSubscricption?.unsubscribe();
   }
 }

@@ -22,7 +22,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
   id: string | null = null;
   paramsSubscription?: Subscription;
   editCategorySubscription?: Subscription;
-  category?: Category;
+  category: any;
 
   constructor(private route: ActivatedRoute,
     private categoryService: CategoryService,
@@ -50,8 +50,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
 
   onFormSubmit(): void {
     const updateCategoryRequest: UpdateCategoryRequest = {
-      name: this.category?.name ?? '',
-      urlHandle: this.category?.urlHandle ?? ''
+      name: this.category.name,
     };
 
     if (this.id) {

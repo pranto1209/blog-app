@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="['/']"><strong>Blog App</strong></a>
+    <a class="navbar-brand"><strong>Blog App</strong></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -8,43 +8,53 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" [routerLink]="['/']"><strong>Home</strong></a>
+          <a class="nav-link" aria-current="page" [routerLink]="['/']" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"><strong>Home</strong></a>
+        </li>
+        <li *ngIf="user" class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/admin/categories']" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"><strong>Category</strong></a>
+        </li>
+        <li *ngIf="user && user.roles.includes('User')" class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/admin/blogposts']" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"><strong>Blog Post</strong></a>
         </li>
 
-        <ng-container *ngIf="user !== undefined && user?.roles?.includes('User')">
+        <!-- <ng-container *ngIf="user">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <strong>Admin</strong>
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" [routerLink]="['/admin/categories']"><strong>Category</strong></a></li>
+              <li><a class="dropdown-item" [routerLink]="['/admin/categories']" routerLinkActive="active-link"
+                  [routerLinkActiveOptions]="{ exact: true }"><strong>Category</strong></a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" [routerLink]="['/admin/blogposts']"><strong>Blog Post</strong></a></li>
+              <li><a class="dropdown-item" [routerLink]="['/admin/blogposts']" routerLinkActive="active-link"
+                  [routerLinkActiveOptions]="{ exact: true }"><strong>Blog Post</strong></a></li>
             </ul>
           </li>
-        </ng-container>
+        </ng-container> -->
 
       </ul>
 
       <div class="d-flex">
-        <ng-container *ngIf="user === undefined;else showLogout">
+        @if(!user) {
+        <ng-container>
           <a [routerLink]="['/login']" class="btn btn-primary">Login</a>
           <a [routerLink]="['/register']" class="btn btn-secondary ms-2">Register</a>
         </ng-container>
-
-        <ng-template #showLogout>
+        }
+        @else {
+        <ng-container>
           <div class="d-flex align-items-center">
-            <button class="btn btn-info">
-              <strong>{{ user?.email }}</strong>
-            </button>
+            <button class="btn btn-info"><strong>{{ user.email }}</strong></button>
             <button class="btn btn-danger ms-2" (click)="onLogout()"><strong>Logout</strong></button>
           </div>
-        </ng-template>
-
+        </ng-container>
+        }
       </div>
 
     </div>

@@ -14,7 +14,7 @@ export class BlogPostService {
 
   constructor(private http: HttpClient) { }
 
-  getAllBlogPosts(request: FilteringRequest): Observable<any> {
+  getBlogPosts(request: FilteringRequest): Observable<any> {
     let params = new HttpParams()
       .set('sortBy', request.sortBy)
       .set('sortDirection', request.sortDirection)
@@ -26,8 +26,20 @@ export class BlogPostService {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-posts`, { params });
   }
 
+  getBlogPostsByUser(request: FilteringRequest): Observable<any> {
+    let params = new HttpParams()
+      .set('sortBy', request.sortBy)
+      .set('sortDirection', request.sortDirection)
+      .set('searchText', request.searchText)
+      .set('isPaginated', request.isPaginated)
+      .set('pageNumber', request.pageNumber)
+      .set('pageSize', request.pageSize);
+
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-posts-by-user`, { params });
+  }
+
   getBlogPostById(id: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post/${id}`);
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post-by-id/${id}`);
   }
 
   getBlogPostByUrlHandle(urlHandle: any): Observable<any> {
@@ -35,7 +47,7 @@ export class BlogPostService {
   }
 
   createBlogPost(data: AddBlogPost): Observable<any> {
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/BlogPosts/create-blog-post`, data);
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/BlogPosts/add-blog-post`, data);
   }
 
   updateBlogPost(id: any, updatedBlogPost: UpdateBlogPost): Observable<any> {

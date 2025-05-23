@@ -50,7 +50,6 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
       urlHandle: '',
       content: '',
       featuredImageUrl: '',
-      author: '',
       isVisible: true,
       publishedDate: new Date(),
       categories: []

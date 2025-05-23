@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FilteringRequest } from '../../../shared/models/filtering.request';
 import { PaginationComponent } from "../../../shared/components/pagination/pagination.component";
+import { User } from '../../../shared/models/user';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-category-list',
@@ -21,6 +23,7 @@ import { PaginationComponent } from "../../../shared/components/pagination/pagin
 })
 export class CategoryListComponent implements OnInit {
 
+  user?: User;
   categories$?: Observable<any>;
 
   request: FilteringRequest = {
@@ -32,10 +35,25 @@ export class CategoryListComponent implements OnInit {
     pageSize: 10
   }
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(
+    private authService: AuthService,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
+    this. onAuthUser();
+
     this.onCategory();
+  }
+
+  onAuthUser(): void {
+    this.authService.user().subscribe({
+        next: (response) => {
+          this.user = response;
+        }
+      });
+
+    this.user = this.authService.getUser();
   }
 
   onCategory(): void {

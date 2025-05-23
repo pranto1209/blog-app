@@ -10,6 +10,7 @@ import { BlogpostListComponent } from './features/blog-post/blogpost-list/blogpo
 import { AddBlogpostComponent } from './features/blog-post/add-blogpost/add-blogpost.component';
 import { EditBlogpostComponent } from './features/blog-post/edit-blogpost/edit-blogpost.component';
 import { authGuard } from './core/guards/auth.guard';
+import { ImageSelectorComponent } from './shared/components/image-selector/image-selector.component';
 
 export const routes: Routes = [
     {
@@ -57,5 +58,5 @@ export const routes: Routes = [
         path: 'admin/blogposts/:id',
         component: EditBlogpostComponent,
         canActivate: [authGuard]
-    }
+    },
 ];

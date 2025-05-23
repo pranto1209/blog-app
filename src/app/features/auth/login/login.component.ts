@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { LoginRequest } from '../models/login-request.model';
-import { AuthService } from '../services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
-import { Router, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../services/auth.service';
+import { LoginRequest } from '../models/login.request';
 
 @Component({
   selector: 'app-login',
@@ -18,35 +18,34 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
 
-  model: LoginRequest;
+  model: LoginRequest = {
+    email: '',
+    password: ''
+  };
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private cookieService: CookieService,
-    private router: Router) {
-    this.model = {
-      email: '',
-      password: ''
-    };
-  }
+    private router: Router
+  ) { }
 
   onFormSubmit(): void {
     this.authService.login(this.model)
-    .subscribe({
-      next: (response) => {
-        // Set Auth Cookie
-        this.cookieService.set('Authorization', `Bearer ${response.token}`,
-        undefined, '/', undefined, true, 'Strict');
+      .subscribe({
+        next: (response) => {
+          this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
 
-        // Set User
-        this.authService.setUser({
-          email: response.email,
-          roles: response.roles
-        });
+          this.authService.setUser({
+            id: response.id,
+            email: response.email,
+            roles: response.roles
+          });
 
-        // Redirect back to Home
-        this.router.navigateByUrl('/');
-
-      }
-    });
+          this.router.navigateByUrl('/');
+        },
+        error: (error) => {
+          alert('Incorrect email or password');
+        }
+      });
   }
 }

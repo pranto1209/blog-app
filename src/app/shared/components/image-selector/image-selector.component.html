@@ -8,7 +8,7 @@
 
         <ng-container *ngIf="images$ | async as images">
           <div class="d-flex flex-wrap">
-            <div *ngFor="let image of images" (click)="selectImage(image)"
+            <div *ngFor="let image of images.data" (click)="selectImage(image)"
               style="min-width: 100px;justify-content: center; cursor: pointer;"
               class="me-1 bg-white d-flex align-items-center flex-column border p-3">
               <img [src]="image.url" [title]="image.fileName" style="height: 100px;">
@@ -16,8 +16,12 @@
               <button class="btn btn-danger mt-2" (click)="onDelete(image.id)">Delete</button>
             </div>
           </div>
-        </ng-container>
 
+          <div class="mt-3">
+            <app-pagination [pageNumber]="request.pageNumber" [totalPage]="getTotalPage(images.total)" (pageChanged)="getPage($event)" />
+          </div>
+
+        </ng-container>
       </div>
       <div class="col-4 p-4 bg-light">
         <h5>Upload Image</h5>

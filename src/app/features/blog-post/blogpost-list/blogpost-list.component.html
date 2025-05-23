@@ -2,7 +2,12 @@
 
   <h5 class="mt-3">Blog Post List</h5>
 
-  <div class="d-flex justify-content-end mt-3">
+  <div class="d-flex justify-content-between mt-3">
+    <div class="d-flex">
+      <input type="text" class="form-control" #queryText>
+      <button type="button" class="btn btn-info ms-3" (click)="onSearch(queryText.value)">Search</button>
+    </div>
+    
     <a [routerLink]="['/admin/blogposts/add']" class="btn btn-primary">Add Blog Post</a>
   </div>
 
@@ -14,20 +19,22 @@
           <th>SN</th>
           <th>Title</th>
           <th>Short Description</th>
-          <th>Is Visible</th>
+          <th>Author</th>
+          <th>Author Visibility</th>
           <th>Categories</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!blogPosts.data || blogPosts.data.length === 0">
-          <td colspan="3" class="text-center">No record to display</td>
+          <td colspan="6" class="text-center">No record to display</td>
         </tr>
         <tr *ngFor="let blogPost of blogPosts.data; let i = index" class="align-middle">
           <td>{{ (request.pageNumber - 1) * request.pageSize + i + 1 }}</td>
           <td>{{blogPost.title}}</td>
           <td>{{blogPost.shortDescription}}</td>
-          <td>{{blogPost.isVisible}}</td>
+          <td>{{blogPost.author}}</td>
+          <td>{{ blogPost.isVisible ? 'Yes' : 'No' }}</td>
           <td>
             <span *ngFor="let category of blogPost.categories">
               <span class="badge bg-secondary me-2">{{category.name}}</span>

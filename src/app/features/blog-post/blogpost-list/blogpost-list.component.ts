@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FilteringRequest } from '../../../shared/models/filtering.request';
 import { PaginationComponent } from "../../../shared/components/pagination/pagination.component";
+import { User } from '../../../shared/models/user';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-blogpost-list',
@@ -32,14 +34,17 @@ export class BlogpostListComponent implements OnInit {
     pageSize: 10
   }
 
-  constructor(private blogPostService: BlogPostService) { }
+  constructor(
+    private authService: AuthService,
+    private blogPostService: BlogPostService
+  ) { }
 
   ngOnInit(): void {
     this.onBlogPost();
   }
 
   onBlogPost(): void {
-    this.blogPosts$ = this.blogPostService.getAllBlogPosts(this.request);
+    this.blogPosts$ = this.blogPostService.getBlogPostsByUser(this.request);
   }
 
   onSearch(queryText: string): void {

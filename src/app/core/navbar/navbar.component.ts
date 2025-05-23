@@ -16,28 +16,26 @@ import { User } from '../../shared/models/user';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {
+
   user?: User;
 
-  constructor(private authService: AuthService,
-    private router: Router) {
-  }
-
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.authService.user()
-    .subscribe({
+    this.authService.user().subscribe({
       next: (response) => {
         this.user = response;
       }
     });
 
     this.user = this.authService.getUser();
-
   }
 
   onLogout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/');
   }
-
 }

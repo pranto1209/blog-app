@@ -5,34 +5,46 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ImageService } from '../../services/image.service';
 import { BlogImage } from '../../models/blog-image';
+import { FilteringRequest } from '../../models/filtering.request';
+import { PaginationComponent } from "../pagination/pagination.component";
 
 @Component({
   selector: 'app-image-selector',
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
-  ],
+    FormsModule,
+    PaginationComponent
+],
   templateUrl: './image-selector.component.html',
   styleUrl: './image-selector.component.scss'
 })
 export class ImageSelectorComponent implements OnInit {
 
-  private file?: File;
+  file?: File;
   fileName: string = '';
   title: string = '';
   images$?: Observable<any>;
 
   @ViewChild('form', { static: false }) imageUploadForm?: NgForm;
 
+  request: FilteringRequest = {
+    sortBy: '',
+    sortDirection: '',
+    searchText: '',
+    isPaginated: true,
+    pageNumber: 1,
+    pageSize: 10
+  }
+
   constructor(private imageService: ImageService) { }
 
   ngOnInit(): void {
-    this.getImages();
+    this.onImages();
   }
 
-  getImages(): void {
-    this.images$ = this.imageService.getAllImages();
+  onImages(): void {
+    this.images$ = this.imageService.getImages(this.request);
   }
 
   onFileUploadChange(event: any): void {
@@ -46,7 +58,7 @@ export class ImageSelectorComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.imageUploadForm?.resetForm();
-            this.getImages();
+            this.onImages();
           }
         });
     }
@@ -60,8 +72,17 @@ export class ImageSelectorComponent implements OnInit {
     this.imageService.deleteImage(id)
       .subscribe({
         next: (response) => {
-          this.getImages();
+          this.onImages();
         }
       });
+  }
+
+  getTotalPage(total: any): any {
+    return Math.ceil(total / this.request.pageSize);
+  }
+
+  getPage(pageNumber: any): void {
+    this.request.pageNumber = pageNumber;
+    this.onImages();
   }
 }

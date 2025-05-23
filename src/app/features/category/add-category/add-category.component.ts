@@ -18,24 +18,24 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddCategoryComponent implements OnDestroy {
 
-  model: AddCategoryRequest;
+  model: AddCategoryRequest = {
+    name: ''
+  };
+  
   private addCategorySubscribtion?: Subscription;
 
-  constructor(private categoryService: CategoryService,
-    private router: Router) {
-    this.model = {
-      name: '',
-      urlHandle: ''
-    };
-  }
+  constructor(
+    private categoryService: CategoryService,
+    private router: Router
+  ) { }
 
   onFormSubmit() {
     this.addCategorySubscribtion = this.categoryService.addCategory(this.model)
-    .subscribe({
-      next: (response) => {
-        this.router.navigateByUrl('/admin/categories');
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/categories');
+        }
+      })
   }
 
   ngOnDestroy(): void {

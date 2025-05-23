@@ -1,13 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { LoginRequest } from '../models/login-request.model';
-import { AuthService } from '../services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { RegisterRequest } from '../models/register.request';
 
 @Component({
-  selector: 'app-registration',
+  selector: 'app-register',
   imports: [
     CommonModule,
     RouterModule,
@@ -18,24 +17,26 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
 
-  model: LoginRequest;
+  model: RegisterRequest = {
+    userName: '',
+    email: '',
+    password: ''
+  };
 
-  constructor(private authService: AuthService,
-    private cookieService: CookieService,
-    private router: Router) {
-    this.model = {
-      email: '',
-      password: ''
-    };
-  }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   onFormSubmit(): void {
     this.authService.registration(this.model)
-    .subscribe({
-      next: (response) => {
-        // Redirect back to login
-        this.router.navigateByUrl('/login');
-      }
-    });
+      .subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/login');
+        },
+        error: (error) => {
+          alert('Invalid User Name or User already exists');
+        }
+      });
   }
 }

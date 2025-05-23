@@ -2,23 +2,23 @@
   <h5 class="mt-3">Edit BlogPost</h5>
 
 
-  <ng-container *ngIf="model">
+  <ng-container *ngIf="blogPost">
     <form #form="ngForm" (ngSubmit)="onFormSubmit()">
       <div class="mt-2 mb-5">
         <div class="mt-3">
           <label for="title" class="form-label">Title</label>
-          <input type="text" id="title" name="title" class="form-control" [(ngModel)]="model.title">
+          <input type="text" id="title" name="title" class="form-control" [(ngModel)]="blogPost.title">
         </div>
 
         <div class="mt-3">
           <label for="urlHandle" class="form-label">Url Handle</label>
-          <input type="text" id="urlHandle" name="urlHandle" class="form-control" [(ngModel)]="model.urlHandle">
+          <input type="text" id="urlHandle" name="urlHandle" class="form-control" [(ngModel)]="blogPost.urlHandle">
         </div>
 
         <div class="mt-3">
           <label for="shortDescription" class="form-label">Short Description</label>
           <input type="text" id="shortDescription" name="shortDescription" class="form-control"
-            [(ngModel)]="model.shortDescription">
+            [(ngModel)]="blogPost.shortDescription">
         </div>
 
         <div class="mt-3">
@@ -27,12 +27,12 @@
           <div class="d-flex flex-row">
             <div class="col-6 p-2">
               <textarea id="content" name="content" class="form-control" style="height: 350px;max-height: 350px;"
-                [(ngModel)]="model.content">
+                [(ngModel)]="blogPost.content">
             </textarea>
             </div>
 
             <div class="col-6 p-2" style="max-height: 350px; overflow-y: scroll;">
-              <markdown [data]="model.content"></markdown>
+              <markdown [data]="blogPost.content"></markdown>
             </div>
           </div>
 
@@ -43,30 +43,25 @@
             <button type="button" class="btn btn-light" (click)="openImageSelector()">Select Image</button>
           </label>
 
-          <ng-container *ngIf="model.featuredImageUrl !== ''">
+          <ng-container *ngIf="blogPost.featuredImageUrl !== ''">
             <div>
-              <img [src]="model.featuredImageUrl" height="100" class="my-2">
+              <img [src]="blogPost.featuredImageUrl" height="100" class="my-2">
             </div>
           </ng-container>
 
           <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control"
-            [(ngModel)]="model.featuredImageUrl">
+            [(ngModel)]="blogPost.featuredImageUrl">
         </div>
 
         <div class="mt-3">
           <label for="publishedDate" class="form-label">Published Date</label>
           <input type="date" id="publishedDate" name="publishedDate" class="form-control"
-            value="{{model.publishedDate}}" [ngModel]="model.publishedDate | date: 'yyy-MM-dd'"
-            (ngModelChange)="model.publishedDate = $event">
-        </div>
-
-        <div class="mt-3">
-          <label for="author" class="form-label">Author</label>
-          <input type="text" id="author" name="author" class="form-control" [(ngModel)]="model.author">
+            value="{{blogPost.publishedDate}}" [ngModel]="blogPost.publishedDate | date:'yyyy-MM-dd'"
+            (ngModelChange)="blogPost.publishedDate = $event">
         </div>
 
         <div class="form-check mt-3">
-          <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="model.isVisible" name="isVisible">
+          <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="blogPost.isVisible" name="isVisible">
           <label class="form-check-label" for="isVisible">
             Is Visible?
           </label>
@@ -92,7 +87,6 @@
     </form>
   </ng-container>
 </div>
-
 
 <div class="images-container-modal" [ngClass]="{'d-block': isImageSelectorVisible, 'd-none': !isImageSelectorVisible}">
   <button type="button" class="btn btn-light" style="position: fixed; top: 10px;right: 10px"
