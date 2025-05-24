@@ -19,25 +19,17 @@ import { MarkdownModule } from 'ngx-markdown';
 })
 export class BlogDetailsComponent implements OnInit {
 
-  url: string | null = null;
-  blogPost$? : Observable<any>;
+  url: string = '';
+  blogPost$?: Observable<any>;
 
   constructor(
-    private route: ActivatedRoute,
-    private blogPostService: BlogPostService)
-  {
-  }
+    private activatedRoute: ActivatedRoute,
+    private blogPostService: BlogPostService
+  ) { }
 
   ngOnInit(): void {
-    this.route.paramMap
-    .subscribe({
-      next: (params) => {
-        this.url = params.get('url');
-      }
-    });
+    this.url = this.activatedRoute.snapshot.paramMap.get('url') ?? '';
 
-    if (this.url) {
-      this.blogPost$ = this.blogPostService.getBlogPostByUrlHandle(this.url);
-    }
+    this.blogPost$ = this.blogPostService.getBlogPostByUrlHandle(this.url);
   }
 }

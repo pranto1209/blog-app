@@ -22,22 +22,22 @@ export class CategoryService {
       .set('pageNumber', request.pageNumber)
       .set('pageSize', request.pageSize);
 
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/Categories/get-categories`, { params });
+    return this.http.get<any>(`${environment.apiBaseUrl}/Categories/get-categories`, { params });
   }
 
   getCategoryById(id: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/Categories/get-category-by-id/${id}`);
+    return this.http.get<any>(`${environment.apiBaseUrl}/Categories/get-category-by-id/${id}`);
   }
 
   addCategory(model: AddCategoryRequest): Observable<any> {
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/Categories/add-category`, model);
+    return this.http.post<any>(`${environment.apiBaseUrl}/Categories/add-category`, model);
   }
 
   updateCategory(id: any, model: UpdateCategoryRequest): Observable<any> {
-    return this.http.put<any>(`${environment.apiBaseUrl}/api/Categories/update-category/${id}`, model);
+    return this.http.put<any>(`${environment.apiBaseUrl}/Categories/update-category/${id}`, model);
   }
 
   deleteCategory(id: any): Observable<any> {
-    return this.http.delete<any>(`${environment.apiBaseUrl}/api/Categories/delete-category/${id}`)
+    return this.http.delete<any>(`${environment.apiBaseUrl}/Categories/delete-category/${id}`)
   }
 }

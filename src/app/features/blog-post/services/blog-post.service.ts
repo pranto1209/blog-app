@@ -22,7 +22,7 @@ export class BlogPostService {
       .set('pageNumber', request.pageNumber)
       .set('pageSize', request.pageSize);
 
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-posts`, { params });
+    return this.http.get<any>(`${environment.apiBaseUrl}/BlogPosts/get-blog-posts`, { params });
   }
 
   getBlogPostsByUser(request: FilteringRequest): Observable<any> {
@@ -34,26 +34,26 @@ export class BlogPostService {
       .set('pageNumber', request.pageNumber)
       .set('pageSize', request.pageSize);
 
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-posts-by-user`, { params });
+    return this.http.get<any>(`${environment.apiBaseUrl}/BlogPosts/get-blog-posts-by-user`, { params });
   }
 
   getBlogPostById(id: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post-by-id/${id}`);
+    return this.http.get<any>(`${environment.apiBaseUrl}/BlogPosts/get-blog-post-by-id/${id}`);
   }
 
   getBlogPostByUrlHandle(urlHandle: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/BlogPosts/get-blog-post-by-url/${urlHandle}`);
+    return this.http.get<any>(`${environment.apiBaseUrl}/BlogPosts/get-blog-post-by-url/${urlHandle}`);
   }
 
   createBlogPost(data: AddBlogPostRequest): Observable<any> {
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/BlogPosts/add-blog-post`, data);
+    return this.http.post<any>(`${environment.apiBaseUrl}/BlogPosts/add-blog-post`, data);
   }
 
   updateBlogPost(id: any, updatedBlogPost: UpdateBlogPostRequest): Observable<any> {
-    return this.http.put<any>(`${environment.apiBaseUrl}/api/BlogPosts/update-blog-post/${id}`, updatedBlogPost);
+    return this.http.put<any>(`${environment.apiBaseUrl}/BlogPosts/update-blog-post/${id}`, updatedBlogPost);
   }
 
   deleteBlogPost(id: any): Observable<any> {
-    return this.http.delete<any>(`${environment.apiBaseUrl}/api/BlogPosts/delete-blog-post/${id}`);
+    return this.http.delete<any>(`${environment.apiBaseUrl}/BlogPosts/delete-blog-post/${id}`);
   }
 }

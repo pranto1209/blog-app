@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { CategoryService } from '../services/category.service';
 import { UpdateCategoryRequest } from '../models/update-category.request';
 import { CommonModule } from '@angular/common';
@@ -16,65 +15,44 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './edit-category.component.html',
   styleUrl: './edit-category.component.scss'
 })
-export class EditCategoryComponent implements OnInit, OnDestroy {
+export class EditCategoryComponent implements OnInit {
 
-  id: string | null = null;
-  paramsSubscription?: Subscription;
-  editCategorySubscription?: Subscription;
+  id: number = 0;
   category: any;
 
-  constructor(private route: ActivatedRoute,
-    private categoryService: CategoryService,
-    private router: Router) {
-  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
-    this.paramsSubscription = this.route.paramMap.subscribe({
-      next: (params) => {
-        this.id = params.get('id');
+    this.id = parseInt(this.activatedRoute.snapshot.paramMap.get('id') ?? '0');
 
-        if (this.id) {
-          // get the data from the API for this category Id
-          this.categoryService.getCategoryById(this.id)
-          .subscribe({
-            next: (response) => {
-              this.category = response;
-            }
-          });
-
-        }
+    this.categoryService.getCategoryById(this.id).subscribe({
+      next: (response) => {
+        this.category = response;
       }
     });
   }
 
   onFormSubmit(): void {
-    const updateCategoryRequest: UpdateCategoryRequest = {
+    const model: UpdateCategoryRequest = {
       name: this.category.name,
     };
 
-    if (this.id) {
-      this.editCategorySubscription = this.categoryService.updateCategory(this.id, updateCategoryRequest)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/categories');
-        }
-      });
-    }
+    this.categoryService.updateCategory(this.id, model).subscribe({
+      next: (response) => {
+        this.router.navigate(['/categories']);
+      }
+    });
   }
 
   onDelete(): void {
-    if (this.id) {
-      this.categoryService.deleteCategory(this.id)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/categories');
-        }
-      })
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.paramsSubscription?.unsubscribe();
-    this.editCategorySubscription?.unsubscribe();
+    this.categoryService.deleteCategory(this.id).subscribe({
+      next: (response) => {
+        this.router.navigate(['/categories']);
+      }
+    });
   }
 }

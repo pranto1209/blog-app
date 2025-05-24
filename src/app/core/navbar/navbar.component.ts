@@ -4,6 +4,7 @@ import { AuthService } from '../../features/auth/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../shared/models/user';
+import { UserRoleEnum } from '../../shared/models/user-role.enum';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +19,7 @@ import { User } from '../../shared/models/user';
 export class NavbarComponent implements OnInit {
 
   user?: User;
+  userRole = UserRoleEnum;
 
   constructor(
     private router: Router,
@@ -36,6 +38,6 @@ export class NavbarComponent implements OnInit {
 
   onLogout(): void {
     this.authService.logout();
-    this.router.navigateByUrl('/');
+    this.router.navigate(['/']);
   }
 }

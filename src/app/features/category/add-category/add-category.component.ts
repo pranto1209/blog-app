@@ -1,7 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { AddCategoryRequest } from '../models/add-category.request';
 import { CategoryService } from '../services/category.service';
-import { Subscription } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,13 +15,11 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.scss'
 })
-export class AddCategoryComponent implements OnDestroy {
+export class AddCategoryComponent {
 
   model: AddCategoryRequest = {
     name: ''
   };
-  
-  private addCategorySubscribtion?: Subscription;
 
   constructor(
     private categoryService: CategoryService,
@@ -30,15 +27,10 @@ export class AddCategoryComponent implements OnDestroy {
   ) { }
 
   onFormSubmit() {
-    this.addCategorySubscribtion = this.categoryService.addCategory(this.model)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/categories');
-        }
-      })
-  }
-
-  ngOnDestroy(): void {
-    this.addCategorySubscribtion?.unsubscribe();
+    this.categoryService.addCategory(this.model).subscribe({
+      next: (response) => {
+        this.router.navigate(['/categories']);
+      }
+    });
   }
 }

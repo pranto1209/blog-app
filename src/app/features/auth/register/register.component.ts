@@ -29,14 +29,13 @@ export class RegisterComponent {
   ) { }
 
   onFormSubmit(): void {
-    this.authService.registration(this.model)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/login');
-        },
-        error: (error) => {
-          alert('Invalid User Name or User already exists');
-        }
-      });
+    this.authService.registration(this.model).subscribe({
+      next: (response) => {
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        alert('Invalid User Name or User already exists');
+      }
+    });
   }
 }

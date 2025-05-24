@@ -14,7 +14,7 @@ import { PaginationComponent } from "../pagination/pagination.component";
     RouterModule,
     FormsModule,
     PaginationComponent
-],
+  ],
   templateUrl: './image-selector.component.html',
   styleUrl: './image-selector.component.scss'
 })
@@ -33,8 +33,8 @@ export class ImageSelectorComponent implements OnInit {
     searchText: '',
     isPaginated: true,
     pageNumber: 1,
-    pageSize: 10
-  }
+    pageSize: 12
+  };
 
   constructor(private imageService: ImageService) { }
 
@@ -53,13 +53,12 @@ export class ImageSelectorComponent implements OnInit {
 
   uploadImage(): void {
     if (this.file && this.fileName?.trim()) {
-      this.imageService.uploadImage(this.file, this.fileName)
-        .subscribe({
-          next: (response) => {
-            this.imageUploadForm?.resetForm();
-            this.onImages();
-          }
-        });
+      this.imageService.uploadImage(this.file, this.fileName).subscribe({
+        next: (response) => {
+          this.imageUploadForm?.resetForm();
+          this.onImages();
+        }
+      });
     }
   }
 
@@ -68,12 +67,11 @@ export class ImageSelectorComponent implements OnInit {
   }
 
   onDelete(id: any): void {
-    this.imageService.deleteImage(id)
-      .subscribe({
-        next: (response) => {
-          this.onImages();
-        }
-      });
+    this.imageService.deleteImage(id).subscribe({
+      next: (response) => {
+        this.onImages();
+      }
+    });
   }
 
   getTotalPage(total: any): any {

@@ -30,22 +30,21 @@ export class LoginComponent {
   ) { }
 
   onFormSubmit(): void {
-    this.authService.login(this.model)
-      .subscribe({
-        next: (response) => {
-          this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
+    this.authService.login(this.model).subscribe({
+      next: (response) => {
+        this.cookieService.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
 
-          this.authService.setUser({
-            id: response.id,
-            email: response.email,
-            roles: response.roles
-          });
+        this.authService.setUser({
+          id: response.id,
+          email: response.email,
+          roles: response.roles
+        });
 
-          this.router.navigateByUrl('/');
-        },
-        error: (error) => {
-          alert('Incorrect email or password');
-        }
-      });
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        alert('Incorrect email or password');
+      }
+    });
   }
 }

@@ -8,6 +8,7 @@ import { FilteringRequest } from '../../../shared/models/filtering.request';
 import { PaginationComponent } from "../../../shared/components/pagination/pagination.component";
 import { User } from '../../../shared/models/user';
 import { AuthService } from '../../auth/services/auth.service';
+import { UserRoleEnum } from '../../../shared/models/user-role.enum';
 
 @Component({
   selector: 'app-category-list',
@@ -23,6 +24,7 @@ import { AuthService } from '../../auth/services/auth.service';
 export class CategoryListComponent implements OnInit {
 
   user?: User;
+  userRole = UserRoleEnum;
   categories$?: Observable<any>;
 
   request: FilteringRequest = {
@@ -32,7 +34,7 @@ export class CategoryListComponent implements OnInit {
     isPaginated: true,
     pageNumber: 1,
     pageSize: 10
-  }
+  };
 
   constructor(
     private authService: AuthService,
@@ -40,17 +42,17 @@ export class CategoryListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this. onAuthUser();
+    this.onAuthUser();
 
     this.onCategory();
   }
 
   onAuthUser(): void {
     this.authService.user().subscribe({
-        next: (response) => {
-          this.user = response;
-        }
-      });
+      next: (response) => {
+        this.user = response;
+      }
+    });
 
     this.user = this.authService.getUser();
   }

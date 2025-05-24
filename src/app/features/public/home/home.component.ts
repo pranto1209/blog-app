@@ -28,8 +28,8 @@ export class HomeComponent implements OnInit {
     searchText: '',
     isPaginated: true,
     pageNumber: 1,
-    pageSize: 9
-  }
+    pageSize: 12
+  };
 
   constructor(private blogPostService: BlogPostService) { }
 

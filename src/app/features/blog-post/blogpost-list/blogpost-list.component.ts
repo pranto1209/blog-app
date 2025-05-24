@@ -30,7 +30,7 @@ export class BlogpostListComponent implements OnInit {
     isPaginated: true,
     pageNumber: 1,
     pageSize: 10
-  }
+  };
 
   constructor(
     private authService: AuthService,

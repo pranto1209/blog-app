@@ -16,7 +16,7 @@
           <a class="nav-link" aria-current="page" [routerLink]="['/categories']" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }"><strong>Category</strong></a>
         </li>
-        <li *ngIf="user && user.roles.includes('User')" class="nav-item">
+        <li *ngIf="user && user.roles.includes(userRole.User)" class="nav-item">
           <a class="nav-link" aria-current="page" [routerLink]="['/blogposts']" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }"><strong>Blog Post</strong></a>
         </li>

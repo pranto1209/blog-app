@@ -8,7 +8,7 @@
       <button type="button" class="btn btn-info ms-3" (click)="onSearch(queryText.value)">Search</button>
     </div>
 
-    <a *ngIf="user && user.roles.includes('Admin')" [routerLink]="['/categories/add']" class="btn btn-primary">Add Category</a>
+    <a *ngIf="user && user.roles.includes(userRole.Admin)" [routerLink]="['/categories/add']" class="btn btn-primary">Add Category</a>
   </div>
 
   <ng-container *ngIf="categories$ | async as categories">
@@ -27,7 +27,7 @@
               </span>
             </span>
           </th>
-          <th *ngIf="user && user.roles.includes('Admin')" class="text-center">Action</th>
+          <th *ngIf="user && user.roles.includes(userRole.Admin)" class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +37,7 @@
         <tr *ngFor="let category of categories.data; let i = index" class="align-middle">
           <td>{{ (request.pageNumber - 1) * request.pageSize + i + 1 }}</td>
           <td>{{category.name}}</td>
-          <td *ngIf="user && user.roles.includes('Admin')" class="text-center">
+          <td *ngIf="user && user.roles.includes(userRole.Admin)" class="text-center">
             <a class="btn btn-warning" [routerLink]="['/categories', category.id]">Edit</a>
           </td>
         </tr>

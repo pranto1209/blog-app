@@ -18,11 +18,11 @@ export class AuthService {
   ) { }
 
   login(model: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/Auth/login-user`, model);
+    return this.http.post<any>(`${environment.apiBaseUrl}/Auth/login-user`, model);
   }
 
   registration(model: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/Auth/register-user`, model);
+    return this.http.post<any>(`${environment.apiBaseUrl}/Auth/register-user`, model);
   }
   
   user(): Observable<User | undefined> {

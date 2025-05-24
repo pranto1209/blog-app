@@ -22,7 +22,7 @@ export class ImageService {
       .set('pageNumber', request.pageNumber)
       .set('pageSize', request.pageSize);
       
-    return this.http.get<any>(`${environment.apiBaseUrl}/api/Images/get-images-by-user`, { params });
+    return this.http.get<any>(`${environment.apiBaseUrl}/Images/get-images-by-user`, { params });
   }
 
   uploadImage(file: File, fileName: string): Observable<any> {
@@ -30,11 +30,11 @@ export class ImageService {
     formData.append('file', file);
     formData.append('fileName', fileName);
 
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/Images/upload-image`, formData);
+    return this.http.post<any>(`${environment.apiBaseUrl}/Images/upload-image`, formData);
   }
 
   deleteImage(id: any): Observable<any> {
-    return this.http.delete<any>(`${environment.apiBaseUrl}/api/Images/delete-image/${id}`);
+    return this.http.delete<any>(`${environment.apiBaseUrl}/Images/delete-image/${id}`);
   }
 
   selectImage(image: any): void {
