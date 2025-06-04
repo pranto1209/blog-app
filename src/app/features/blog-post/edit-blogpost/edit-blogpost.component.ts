@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BlogPostService } from '../services/blog-post.service';
 import { CategoryService } from '../../category/services/category.service';
-import { UpdateBlogPostRequest } from '../models/update-blog-post.request';
+import { EditBlogPostRequest } from '../models/edit-blog-post.request';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ImageService } from '../../../shared/services/image.service';
@@ -73,7 +73,7 @@ export class EditBlogpostComponent implements OnInit {
 
   onFormSubmit(): void {
     if (this.blogPost && this.id) {
-      var model: UpdateBlogPostRequest = {
+      var model: EditBlogPostRequest = {
         content: this.blogPost.content,
         shortDescription: this.blogPost.shortDescription,
         featuredImageUrl: this.blogPost.featuredImageUrl,
@@ -83,7 +83,7 @@ export class EditBlogpostComponent implements OnInit {
         categories: this.selectedCategories ?? []
       };
 
-      this.blogPostService.updateBlogPost(this.id, model).subscribe({
+      this.blogPostService.editBlogPost(this.id, model).subscribe({
         next: (response) => {
           this.router.navigate(['/blogposts']);
         }

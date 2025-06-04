@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AddBlogPostRequest } from '../models/add-blog-post.request';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { UpdateBlogPostRequest } from '../models/update-blog-post.request';
+import { EditBlogPostRequest } from '../models/edit-blog-post.request';
 import { environment } from '../../../../environments/environment.development';
 import { FilteringRequest } from '../../../shared/models/filtering.request';
 
@@ -49,8 +49,8 @@ export class BlogPostService {
     return this.http.post<any>(`${environment.apiBaseUrl}/BlogPosts/add-blog-post`, data);
   }
 
-  updateBlogPost(id: any, updatedBlogPost: UpdateBlogPostRequest): Observable<any> {
-    return this.http.put<any>(`${environment.apiBaseUrl}/BlogPosts/update-blog-post/${id}`, updatedBlogPost);
+  editBlogPost(id: any, editBlogPost: EditBlogPostRequest): Observable<any> {
+    return this.http.put<any>(`${environment.apiBaseUrl}/BlogPosts/edit-blog-post/${id}`, editBlogPost);
   }
 
   deleteBlogPost(id: any): Observable<any> {

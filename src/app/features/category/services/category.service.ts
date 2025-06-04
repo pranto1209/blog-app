@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AddCategoryRequest } from '../models/add-category.request';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { UpdateCategoryRequest } from '../models/update-category.request';
+import { EditCategoryRequest } from '../models/edit-category.request';
 import { environment } from '../../../../environments/environment.development';
 import { FilteringRequest } from '../../../shared/models/filtering.request';
 
@@ -33,8 +33,8 @@ export class CategoryService {
     return this.http.post<any>(`${environment.apiBaseUrl}/Categories/add-category`, model);
   }
 
-  updateCategory(id: any, model: UpdateCategoryRequest): Observable<any> {
-    return this.http.put<any>(`${environment.apiBaseUrl}/Categories/update-category/${id}`, model);
+  editCategory(id: any, model: EditCategoryRequest): Observable<any> {
+    return this.http.put<any>(`${environment.apiBaseUrl}/Categories/edit-category/${id}`, model);
   }
 
   deleteCategory(id: any): Observable<any> {

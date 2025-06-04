@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CategoryService } from '../services/category.service';
-import { UpdateCategoryRequest } from '../models/update-category.request';
+import { EditCategoryRequest } from '../models/edit-category.request';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -37,11 +37,11 @@ export class EditCategoryComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    const model: UpdateCategoryRequest = {
+    const model: EditCategoryRequest = {
       name: this.category.name,
     };
 
-    this.categoryService.updateCategory(this.id, model).subscribe({
+    this.categoryService.editCategory(this.id, model).subscribe({
       next: (response) => {
         this.router.navigate(['/categories']);
       }
