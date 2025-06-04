@@ -1,6 +1,6 @@
 # Blog App
 
-A full stack web application that allows users to write and manage blogs. Used C# ASP.NET Web API for backend and Angular for frontend. Monolith architecture with Repository pattern used for maintainable and scalable code. Entity Framework Core used for PostgreSQL database operations. Integrated ASP.NET Identity for authentication and role based authorization using JSON Web Token (JWT). Implemented Image upload features. Created reusable angular components, services, guards, interceptors. Implemented UI using bootsrap CSS.
+A web application to write and manage blogs. The backend was built using C# ASP.NET Web API, following a monolithic architecture with repository pattern to ensure maintainability and scalability. Utilized Entity Framework Core for data persistence and retrieval from a PostgreSQL database. Integrated ASP.NET Identity for authentication and role based authorization using JSON Web Token (JWT). Implemented image upload functionality to enhance blog content. In the frontend Angular was used for leveraging reusable components, services, guards, and interceptors. The responsive user interface was designed using Bootstrap.
 
 
 ## Frontend Project
